@@ -48,9 +48,9 @@ class Api::V1::WebhooksController < ApplicationController
     mg_client = Mailgun::Client.new Rails.application.secrets['mailgun']['key']
 
     # Define your message parameters
-    message_params =  { from: 'bob@calendly.com',
+    message_params =  { from: 'deepakyuvasoft234@gmail.com',
                         to:   'deepakyuvasoft234@gmail.com',
-                        subject: 'The Ruby SDK is awesome!',
+                        subject: 'The Mailgun mailer SDK is awesome!',
                         text:    'It is really easy to send a message!'
                       }
 
