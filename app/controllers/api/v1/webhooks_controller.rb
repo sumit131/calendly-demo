@@ -28,6 +28,9 @@ class Api::V1::WebhooksController < ApplicationController
       # do nothing
     else
       send_mail_to_invitee
+      send_mail_for_event_deletion
+
+
       # Send mail to user, to created profile on our site.
       # Delete Event from calendly, (No documentation for the same)
     end
@@ -43,19 +46,26 @@ class Api::V1::WebhooksController < ApplicationController
     end
   end
 
-  def send_mail_to_invitee
-    # First, instantiate the Mailgun Client with your API key
-    mg_client = Mailgun::Client.new Rails.application.secrets['mailgun']['key']
-
-    # Define your message parameters
-    message_params =  { from: 'deepakyuvasoft234@gmail.com',
-                        to:   'deepakyuvasoft234@gmail.com',
-                        subject: 'The Mailgun mailer SDK is awesome!',
-                        text:    'It is really easy to send a message!'
+  def send_mail_for_event_deletion
+    mg_client = Mailgun::Client.new Rails.application.secrets['mailgun'][:key]
+    message_params =  { from:    "info@sbdcbahamas.com",
+                        to:      'info@sbdcbahamas.com',
+                        subject: "Delete Calendly Event!",
+                        text:    ("Remove calendly event as the invitee profile is not present in our app.").html_safe
                       }
 
-    # Send your message through the client
-    mg_client.send_message Rails.application.secrets['server_url'], message_params
+    mg_client.send_message Rails.application.secrets['mailgun'][:domain], message_params
+  end
+
+  def send_mail_to_invitee
+    mg_client = Mailgun::Client.new Rails.application.secrets['mailgun'][:key]
+    message_params =  { from:    "info@sbdcbahamas.com",
+                        to:      calendly_invitee_email,
+                        subject: "Calendly Event Cancelled!",
+                        text:    ("Your calendly event/meeting gets cancelled! Please register here(https://www.sbdcbahamas.com) first to continue using calendly meetings!").html_safe
+                      }
+
+    mg_client.send_message Rails.application.secrets['mailgun'][:domain], message_params
   end
 
   private
