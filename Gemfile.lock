@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:sumit131/calendly.git
+  remote: https://github.com/sumit131/calendly.git
   revision: 5250d0a72dc30d0263358536a6e8eb1c0cfa4e1d
   specs:
     calendly (0.1.0)

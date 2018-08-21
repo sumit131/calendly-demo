@@ -2,9 +2,9 @@ class Api::V1::WebhooksController < ApplicationController
 
   def setup_subscription
     data = {}
-    data[:url] = 'https://8a01e68a.ngrok.io/api/v1/invitee_created'
+    data[:url] = Rails.application.secrets['server_url'] + '/api/v1/invitee_created'
     data[:events] = ['invitee.created', 'invitee.canceled']
-    Calendly.webhook_subscription(data)
+    @hook = Calendly.webhook_subscription(data)
     # hook_id: {"id"=>249061, 249081}
   end
 

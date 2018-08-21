@@ -37,7 +37,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'devise'
 gem 'activeadmin'
-gem 'calendly', git: 'git@github.com:sumit131/calendly.git'
+gem 'calendly', git: 'https://github.com/sumit131/calendly.git'
 gem 'mailgun-ruby'
 
 gem 'rails_12factor', group: :production
