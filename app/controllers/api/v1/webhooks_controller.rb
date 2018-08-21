@@ -2,7 +2,7 @@ class Api::V1::WebhooksController < ApplicationController
 
   def setup_subscription
     data = {}
-    data[:url] = 'https://03d6cb33.ngrok.io/api/v1/invitee_created'
+    data[:url] = 'https://8a01e68a.ngrok.io/api/v1/invitee_created'
     data[:events] = ['invitee.created', 'invitee.canceled']
     Calendly.webhook_subscription(data)
     # hook_id: {"id"=>249061, 249081}
@@ -38,6 +38,12 @@ class Api::V1::WebhooksController < ApplicationController
 
   def send_mail_to_invitee
     # Send mail with signup link via mailgum 
+    RestClient.post "https://api:6da3049628abe5735223636c11fc7b40-a4502f89-ab1ebc87"
+        "@api.mailgun.net/v3/sandbox660b4b11e0654974b315e2b48a1663d3.mailgun.org/messages",
+        :from => "Mailgun Sandbox <postmaster@sandbox660b4b11e0654974b315e2b48a1663d3.mailgun.org>",
+        :to => "Deepak Yuvasoft <deepakyuvasoft234@gmail.com>",
+        :subject => "Hello Deepak Yuvasoft",
+        :text => "Congratulations Deepak Yuvasoft, you just sent an email with Mailgun!  You are truly awesome!"
   end
 
   private
