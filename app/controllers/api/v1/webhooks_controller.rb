@@ -5,11 +5,14 @@ class Api::V1::WebhooksController < ApplicationController
     data[:url] = Rails.application.secrets['server_url'] + '/api/v1/invitee_created'
     data[:events] = ['invitee.created', 'invitee.canceled']
     @hook = Calendly.webhook_subscription(data)
-    # hook_id: {"id"=>249061, 249081}
+    puts @hook # hook_id: {"id"=>249061, 249081}
+    redirect_to root_path
   end
 
   def check_subscription
-    Calendly.webhook_subscriptions
+    @subscriptions = Calendly.webhook_subscriptions
+    puts @subscriptions
+    redirect_to root_path
   end
 
   # def delete_event
@@ -17,6 +20,7 @@ class Api::V1::WebhooksController < ApplicationController
   # end
 
   def calendly_invitee_created
+    puts "Webhook call received for event created by #{calendly_invitee_email}"
     if Profile.email_exist?(calendly_invitee_email)
       # do nothing
     else
