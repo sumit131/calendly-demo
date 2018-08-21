@@ -3,3 +3,17 @@
 <%= link_to 'Set Webhook Supscription', api_v1_subscription_path %>
 <br>
 <%= link_to 'Check Webhook Supscriptions', api_v1_check_subscription_path %>
+<br>
+<br>
+<% if session[:subscription].present? %>
+  <h2>Subscribed Webhook id:</h2>
+  <%= session[:subscription] %>
+<% end %>
+<br>
+<% if session[:subscriptions].present? %>
+  <h2>Webhook Subscriptions:</h2>
+  <% session[:subscriptions]['data'].each do |hook| %>
+    <%= hook %>
+    <br>
+  <% end %>
+<% end %>

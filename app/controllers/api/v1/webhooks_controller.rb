@@ -4,14 +4,16 @@ class Api::V1::WebhooksController < ApplicationController
     data = {}
     data[:url] = Rails.application.secrets['server_url'] + '/api/v1/invitee_created'
     data[:events] = ['invitee.created', 'invitee.canceled']
-    @hook = Calendly.webhook_subscription(data)
-    puts @hook # hook_id: {"id"=>249061, 249081}
+    @subscriptions = Calendly.webhook_subscription(data)
+    puts @subscriptions
+    session[:subscription] = @subscriptions
     redirect_to root_path
   end
 
   def check_subscription
     @subscriptions = Calendly.webhook_subscriptions
     puts @subscriptions
+    session[:subscriptions] = @subscriptions
     redirect_to root_path
   end
 
