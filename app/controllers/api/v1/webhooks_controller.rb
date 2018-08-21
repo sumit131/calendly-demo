@@ -1,4 +1,5 @@
 class Api::V1::WebhooksController < ApplicationController
+  require 'mailgun-ruby'
 
   def setup_subscription
     data = {}
@@ -43,13 +44,18 @@ class Api::V1::WebhooksController < ApplicationController
   end
 
   def send_mail_to_invitee
-    # Send mail with signup link via mailgum 
-    # RestClient.post "https://api:6da3049628abe5735223636c11fc7b40-a4502f89-ab1ebc87"
-    #     "@api.mailgun.net/v3/sandbox660b4b11e0654974b315e2b48a1663d3.mailgun.org/messages",
-    #     :from => "Mailgun Sandbox <postmaster@sandbox660b4b11e0654974b315e2b48a1663d3.mailgun.org>",
-    #     :to => "Deepak Yuvasoft <deepakyuvasoft234@gmail.com>",
-    #     :subject => "Hello Deepak Yuvasoft",
-    #     :text => "Congratulations Deepak Yuvasoft, you just sent an email with Mailgun!  You are truly awesome!"
+    # First, instantiate the Mailgun Client with your API key
+    mg_client = Mailgun::Client.new Rails.application.secrets['mailgun']['key']
+
+    # Define your message parameters
+    message_params =  { from: 'bob@calendly.com',
+                        to:   'deepakyuvasoft234@gmail.com',
+                        subject: 'The Ruby SDK is awesome!',
+                        text:    'It is really easy to send a message!'
+                      }
+
+    # Send your message through the client
+    mg_client.send_message Rails.application.secrets['server_url'], message_params
   end
 
   private
